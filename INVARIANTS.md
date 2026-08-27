@@ -48,6 +48,8 @@ Documentation snapshot: 2026-08-25, `l9-update-agent-docs` v2.0.2 from
 | Behavioral tests | `pyproject.toml`, `.l9/repo-workflow.json`, `make test` | Blocking local check |
 | Schema and fixture validation | `tests/test_json_schemas.py`, `make schema-check` | Blocking local check |
 | Python compilation | `Repo.mk`, `make compile-check` | Blocking local check |
+| Agent-facing metadata describes this repository | `scripts/reconcile_plugin_config.py`, `make check-config` | Blocking local check |
+| Generated Cursor rules match templates and config | `scripts/render_cursor_rules.py`, `make check-rules` | Blocking local check |
 | Full local verification | `Repo.mk`, `make verify` | Composite blocking check |
 | Lock consistency before push/PR | `.l9/repo-workflow.json`, `Repo.mk` | Blocking when lock resolution is available |
 | Organization CI | External owner: `Quantum-L9/l9-ci-core` and organization control plane | No repo-local workflow to classify |

@@ -76,6 +76,8 @@ make check
 make test
 make schema-check
 make compile-check
+make check-config
+make check-rules
 make verify
 make pr-check
 ```

@@ -2,17 +2,17 @@
 template: .cursor/rules/templates/l9-agents.mdc.template
 template_sha256: e7354122352ae6fd05ca2071664edf9dbe87c55352ba91b6d485001e5f67dd03
 config: plugin-config.yaml
-config_sha256: 57560d9de980f174cd7abd4d85578d141f7c3c6f05fe8d397a734f99a1c68dd1
-render_id: 0ff38402dc62a7cb1a37a435cdb30f8abbe6416cb9cdfd8e3beeb4193aafab01
+config_sha256: 8c06add1d58d7b23c142621c5dcfd4d68a9f8c123a6ad1960060d43d814e3690
+render_id: 1023f6f459ef890bdf1de8dcdf679332634245c3c149c88c0bc4d29c96194e8b
 /L9_RENDERED -->
 ---
-description: "l9-repo-template autonomous agent guardrails — generated from domain cartridge"
+description: "l9-observability-core autonomous agent guardrails — generated from domain cartridge"
 globs: ["AGENTS.md", "scripts/**", "Makefile", "Repo.mk"]
 alwaysApply: false
 ---
-<!-- L9_META role: cursor_rule tags: [agents, generated, l9-python-museum] version: 1.2.0 /L9_META -->
+<!-- L9_META role: cursor_rule tags: [agents, generated, observability-domain-contract-library] version: 1.2.0 /L9_META -->
 
-# Agent Guardrails — l9-repo-template
+# Agent Guardrails — l9-observability-core
 
 > This file is generated from .cursor/rules/templates/*.mdc.template. Do not edit directly; edit the template or plugin-config.yaml.
 
