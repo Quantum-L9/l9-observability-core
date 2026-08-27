@@ -1,0 +1,19 @@
+schema: l9.ownership-spec/v1
+repository: Quantum-L9/l9-observability-core
+repository_owns:
+  - docs/ observability semantic law
+  - schemas/v1 canonical wire contracts
+  - src/l9_observability_core typed domain implementation
+  - tests/ contract and regression proof
+  - examples/fixtures cross-consumer contract examples
+  - Repo.mk product-specific repository targets
+repository_execution_runtime_owns:
+  - tools/l9_repo/
+  - .l9/repo-workflow.json
+  - .l9/repo-workflow.schema.json
+  - Makefile generated command facade
+external_owners:
+  instrumentation_and_export: consuming runtimes and their chassis
+  inter_node_transport: Quantum-L9/Gate_SDK and Quantum-L9/Constellation.Gate
+  program_execution: Quantum-L9/Cursor-Governance
+  organization_ci: Quantum-L9/l9-ci-core and organization control plane

@@ -1,0 +1,15 @@
+# Organization birth profile marker.
+#
+# This repository declares its own class; Quantum-L9/.github decides what that
+# class receives (INHERIT / MATERIALIZE / REMOTE APPLY / FORBID), per
+# policies/repo-classes.yml over there.
+#
+# Written by scripts/birth-runner/new_repo.py at birth. The two SHAs below are
+# the exact pair of commits this repository was born from.
+schema: l9.org-birth-profile-marker/v1
+profile: non_constellation_python
+authority: Quantum-L9/.github
+repository: Quantum-L9/l9-observability-core
+template_sha: 496fa88ef517eb73d096c02f81dde088a0442b59
+org_profile_sha: 01b8531f122fee6b39876a6752e3fe4ce6a61674
+born_at: 2026-08-27T01:24:34+00:00

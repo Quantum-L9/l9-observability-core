@@ -1,0 +1,69 @@
+{
+  "$id": "urn:quantum-l9:observability:v1:usage-event",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attributes": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Attributes",
+      "default": {}
+    },
+    "cost": {
+      "default": null,
+      "oneOf": [
+        {
+          "$ref": "urn:quantum-l9:observability:v1:cost-usage"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "event_id": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "event_type": {
+      "const": "usage"
+    },
+    "evidence_refs": {
+      "default": [],
+      "items": {
+        "$ref": "urn:quantum-l9:observability:v1:evidence-ref"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "execution": {
+      "$ref": "urn:quantum-l9:observability:v1:execution-context"
+    },
+    "model": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "occurred_at": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Timestamp"
+    },
+    "provider": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "schema": {
+      "const": "l9.observability.usage-event.v1"
+    },
+    "tokens": {
+      "$ref": "urn:quantum-l9:observability:v1:token-usage"
+    },
+    "trace": {
+      "$ref": "urn:quantum-l9:observability:v1:trace-context"
+    }
+  },
+  "required": [
+    "schema",
+    "event_type",
+    "event_id",
+    "occurred_at",
+    "trace",
+    "execution",
+    "provider",
+    "model",
+    "tokens"
+  ],
+  "type": "object"
+}

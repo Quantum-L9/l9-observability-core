@@ -1,0 +1,57 @@
+<!-- L9_RENDERED
+template: .cursor/rules/templates/00-global.mdc.template
+template_sha256: d2d7516dc8afaacc58264108e72221f74ebc6139e948c55a8eaf7b49097c9eb8
+config: plugin-config.yaml
+config_sha256: 57560d9de980f174cd7abd4d85578d141f7c3c6f05fe8d397a734f99a1c68dd1
+render_id: 41b3c68b04824371adb2e32b5cbd174112d20eb4407e2b64b709d2ddc68f5231
+/L9_RENDERED -->
+---
+description: "l9-repo-template global conventions — generated from domain cartridge"
+globs: ["**/*"]
+alwaysApply: true
+---
+<!-- L9_META role: cursor_rule tags: [global, generated, l9-python-museum] version: 1.2.0 /L9_META -->
+
+# l9-repo-template Global Agent Conventions
+
+> This file is generated from .cursor/rules/templates/*.mdc.template. Do not edit directly; edit the template or plugin-config.yaml.
+
+## Execution Discipline
+
+- Read every target file completely before modifying.
+- Produce complete files — no stubs, no TODO placeholders.
+- Do not silently alter behavior. State the change and why.
+- If scope touches protected paths, stop and ask for approval.
+
+## Protected Paths
+
+- `uv.lock`
+- `pyproject.toml`
+- `.l9/runtime-provenance.yaml`
+- `scripts/bootstrap_rename.py`
+- `scripts/inventory_check.py`
+- `scripts/repo_hygiene_audit.py`
+- `Makefile`
+- `tools/l9_repo/**`
+
+## High-Risk Commands
+
+- `git push --force`
+- `rm -rf .venv`
+
+## CI Gates
+
+Run in this order:
+
+- `make verify`
+- `make check-rules`
+- `make hygiene-check`
+
+## Repo Cartridge
+
+- Repo: `l9-repo-template`
+- Domain: `l9-python-museum`
+- Package: `l9_observability_core`
+- App entrypoint: `l9_observability_core.app:app`
+- Python: `3.12`
+- Venv: `.venv/bin/python`

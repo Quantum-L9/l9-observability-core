@@ -1,0 +1,63 @@
+# --- L9_META ---
+# l9_schema: 1
+# origin: l9-repo-template
+# layer: security
+# owner: platform
+# status: active
+# --- /L9_META ---
+#
+# High-signal Python rules safe for the generic repository template.
+# Project/domain-specific Semgrep rules belong in downstream repositories.
+
+rules:
+  - id: no-datetime-utcnow
+    pattern: datetime.utcnow()
+    message: datetime.utcnow() is deprecated in Python 3.12+. Use datetime.now(UTC).
+    languages: [python]
+    severity: ERROR
+    paths:
+      include: ["**/*.py"]
+      exclude: ["tests/**", "venv/**", ".venv/**"]
+
+  - id: no-eval
+    patterns:
+      - pattern: eval(...)
+      - pattern-not: $OBJ.eval(...)
+    message: eval() is forbidden. Use explicit safe parsing.
+    languages: [python]
+    severity: ERROR
+    paths:
+      include: ["**/*.py"]
+      exclude: ["tests/**", "scripts/**", "venv/**", ".venv/**"]
+
+  - id: no-exec
+    pattern: exec(...)
+    message: exec() is forbidden in application source.
+    languages: [python]
+    severity: ERROR
+    paths:
+      include: ["**/*.py"]
+      exclude: ["tests/**", "scripts/**", "venv/**", ".venv/**"]
+
+  - id: no-pickle-loads
+    pattern: pickle.loads(...)
+    message: pickle.loads() is forbidden for untrusted deserialization. Use a safe format.
+    languages: [python]
+    severity: ERROR
+    paths:
+      include: ["**/*.py"]
+      exclude: ["tests/**", "venv/**", ".venv/**"]
+
+  - id: no-sql-fstring
+    patterns:
+      - pattern-either:
+          - pattern: f"SELECT ... {$VAR} ..."
+          - pattern: f"INSERT ... {$VAR} ..."
+          - pattern: f"UPDATE ... {$VAR} ..."
+          - pattern: f"DELETE ... {$VAR} ..."
+    message: SQL queries must use parameterized values, not f-string interpolation.
+    languages: [python]
+    severity: ERROR
+    paths:
+      include: ["**/*.py"]
+      exclude: ["tests/**", "venv/**", ".venv/**"]

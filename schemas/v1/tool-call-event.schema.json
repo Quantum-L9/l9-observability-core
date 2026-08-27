@@ -1,0 +1,84 @@
+{
+  "$id": "urn:quantum-l9:observability:v1:tool-call-event",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "attributes": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Attributes",
+      "default": {}
+    },
+    "duration_ms": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/NonNegativeInteger"
+    },
+    "event_id": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "event_type": {
+      "const": "tool_call"
+    },
+    "evidence_refs": {
+      "default": [],
+      "items": {
+        "$ref": "urn:quantum-l9:observability:v1:evidence-ref"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "execution": {
+      "$ref": "urn:quantum-l9:observability:v1:execution-context"
+    },
+    "occurred_at": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Timestamp"
+    },
+    "outcome": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/ToolOutcome"
+    },
+    "request_ref": {
+      "default": null,
+      "oneOf": [
+        {
+          "$ref": "urn:quantum-l9:observability:v1:evidence-ref"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "result_ref": {
+      "default": null,
+      "oneOf": [
+        {
+          "$ref": "urn:quantum-l9:observability:v1:evidence-ref"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "schema": {
+      "const": "l9.observability.tool-call-event.v1"
+    },
+    "tool": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "trace": {
+      "$ref": "urn:quantum-l9:observability:v1:trace-context"
+    }
+  },
+  "required": [
+    "schema",
+    "event_type",
+    "event_id",
+    "occurred_at",
+    "trace",
+    "execution",
+    "tool",
+    "action",
+    "outcome",
+    "duration_ms"
+  ],
+  "type": "object"
+}

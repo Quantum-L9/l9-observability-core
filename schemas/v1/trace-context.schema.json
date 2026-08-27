@@ -1,0 +1,32 @@
+{
+  "$id": "urn:quantum-l9:observability:v1:trace-context",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "parent_span_id": {
+      "default": null,
+      "oneOf": [
+        {
+          "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "span_id": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "trace_id": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    }
+  },
+  "required": [
+    "trace_id",
+    "span_id"
+  ],
+  "type": "object",
+  "x-l9-invariants": [
+    "parent_span_id MUST NOT equal span_id when parent_span_id is present"
+  ]
+}

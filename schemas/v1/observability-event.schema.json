@@ -1,0 +1,27 @@
+{
+  "$id": "urn:quantum-l9:observability:v1:observability-event",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "$ref": "urn:quantum-l9:observability:v1:execution-span"
+    },
+    {
+      "$ref": "urn:quantum-l9:observability:v1:attempt-event"
+    },
+    {
+      "$ref": "urn:quantum-l9:observability:v1:tool-call-event"
+    },
+    {
+      "$ref": "urn:quantum-l9:observability:v1:validation-event"
+    },
+    {
+      "$ref": "urn:quantum-l9:observability:v1:failure-event"
+    },
+    {
+      "$ref": "urn:quantum-l9:observability:v1:usage-event"
+    },
+    {
+      "$ref": "urn:quantum-l9:observability:v1:outcome-event"
+    }
+  ]
+}

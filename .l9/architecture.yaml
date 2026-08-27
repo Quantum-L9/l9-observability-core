@@ -1,0 +1,27 @@
+schema: l9.architecture-spec/v1
+metadata:
+  repository: Quantum-L9/l9-observability-core
+  status: authoritative
+  role: reusable-python-platform-library
+identity:
+  role: observability-domain-contract-library
+  description: >
+    Canonical backend-neutral observability vocabulary, schemas, typed models,
+    deterministic canonicalization, and validation helpers for Quantum-L9.
+boundaries:
+  owns:
+    - canonical observability domain contracts
+    - schemas/v1 wire contracts
+    - typed Python models and pure validation helpers
+    - deterministic canonical JSON and SHA-256 digest semantics
+    - product-specific repository targets in Repo.mk
+  does_not_own:
+    - Constellation node birth, Gate routing, or TransportPacket
+    - logging, tracing, metrics, collectors, exporters, storage, or dashboards
+    - HTTP or MCP hosting
+    - deployment or organization CI execution semantics
+repository_execution:
+  authority: .l9/repo-workflow.json
+  runtime: tools/l9_repo/
+  generated_facade: Makefile
+  organization_ci_execution: Quantum-L9/l9-ci-core

@@ -1,0 +1,78 @@
+{
+  "$id": "urn:quantum-l9:observability:v1:outcome-event",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attributes": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Attributes",
+      "default": {}
+    },
+    "effectiveness_signal": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/EffectivenessSignal"
+    },
+    "event_id": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "event_type": {
+      "const": "outcome"
+    },
+    "evidence_refs": {
+      "default": [],
+      "items": {
+        "$ref": "urn:quantum-l9:observability:v1:evidence-ref"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "execution": {
+      "$ref": "urn:quantum-l9:observability:v1:execution-context"
+    },
+    "occurred_at": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Timestamp"
+    },
+    "outcome_kind": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/OutcomeKind"
+    },
+    "result_ref": {
+      "default": null,
+      "oneOf": [
+        {
+          "$ref": "urn:quantum-l9:observability:v1:evidence-ref"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "schema": {
+      "const": "l9.observability.outcome-event.v1"
+    },
+    "success": {
+      "type": "boolean"
+    },
+    "summary": {
+      "default": null,
+      "maxLength": 1024,
+      "minLength": 1,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "trace": {
+      "$ref": "urn:quantum-l9:observability:v1:trace-context"
+    }
+  },
+  "required": [
+    "schema",
+    "event_type",
+    "event_id",
+    "occurred_at",
+    "trace",
+    "execution",
+    "outcome_kind",
+    "success",
+    "effectiveness_signal"
+  ],
+  "type": "object"
+}

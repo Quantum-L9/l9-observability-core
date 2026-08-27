@@ -1,0 +1,61 @@
+{
+  "$id": "urn:quantum-l9:observability:v1:evidence-ref",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "digest": {
+      "default": null,
+      "oneOf": [
+        {
+          "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Digest"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "kind": {
+      "enum": [
+        "artifact",
+        "receipt",
+        "log",
+        "trace",
+        "schema",
+        "commit",
+        "url",
+        "other"
+      ]
+    },
+    "media_type": {
+      "default": null,
+      "maxLength": 255,
+      "minLength": 1,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ref": {
+      "maxLength": 2048,
+      "minLength": 1,
+      "pattern": ".*\\S.*",
+      "type": "string"
+    },
+    "revision": {
+      "default": null,
+      "oneOf": [
+        {
+          "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "kind",
+    "ref"
+  ],
+  "type": "object"
+}

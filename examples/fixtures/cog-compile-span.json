@@ -1,0 +1,72 @@
+{
+  "attributes": {},
+  "completed_at": "2026-08-23T21:00:01Z",
+  "duration_ms": 1000,
+  "event_id": "evt-cog-1",
+  "event_type": "execution_span",
+  "evidence_refs": [
+    {
+      "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "kind": "artifact",
+      "media_type": null,
+      "ref": "l9-cognitive-runtime:runtime-bundle:intent",
+      "revision": null
+    },
+    {
+      "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "kind": "artifact",
+      "media_type": null,
+      "ref": "l9-cognitive-runtime:runtime-bundle:execution",
+      "revision": null
+    },
+    {
+      "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "kind": "artifact",
+      "media_type": null,
+      "ref": "l9-cognitive-runtime:runtime-bundle:validation",
+      "revision": null
+    },
+    {
+      "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "kind": "artifact",
+      "media_type": null,
+      "ref": "l9-cognitive-runtime:runtime-bundle:handoff",
+      "revision": null
+    },
+    {
+      "digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+      "kind": "artifact",
+      "media_type": null,
+      "ref": "l9-cognitive-runtime:runtime-bundle:graph",
+      "revision": null
+    },
+    {
+      "digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+      "kind": "artifact",
+      "media_type": null,
+      "ref": "l9-cognitive-runtime:runtime-bundle:manifest",
+      "revision": null
+    }
+  ],
+  "execution": {
+    "attempt_id": null,
+    "campaign_id": null,
+    "component": "l9-cognitive-runtime",
+    "operation": "compile_runtime",
+    "phase": "compile",
+    "program_id": null,
+    "run_id": "run-1",
+    "session_id": null,
+    "task_id": "task-1"
+  },
+  "occurred_at": "2026-08-23T21:00:01Z",
+  "schema": "l9.observability.execution-span.v1",
+  "span_kind": "internal",
+  "started_at": "2026-08-23T21:00:00Z",
+  "status": "completed",
+  "trace": {
+    "parent_span_id": null,
+    "span_id": "span-cog-1",
+    "trace_id": "trace-cog-1"
+  }
+}

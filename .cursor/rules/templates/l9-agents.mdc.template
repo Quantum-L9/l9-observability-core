@@ -1,0 +1,35 @@
+---
+description: "${repo_name} autonomous agent guardrails — generated from domain cartridge"
+globs: ["AGENTS.md", "scripts/**", "Makefile", "Repo.mk"]
+alwaysApply: false
+---
+<!-- L9_META role: cursor_rule tags: [agents, generated, ${domain}] version: ${plugin_version} /L9_META -->
+
+# Agent Guardrails — ${repo_name}
+
+> ${rendered_notice}
+
+## Before Multi-File Tasks
+
+1. State the TODO plan with exact file paths.
+2. Mark every planned change as PENDING, APPLIED, then VERIFIED.
+3. Run the CI gates before declaring completion.
+
+## Stop-and-Ask Conditions
+
+- Any protected path:
+${protected_paths_bullets}
+
+- Any high-risk command:
+${high_risk_commands_bullets}
+
+## CI Gates
+
+${ci_gates_bullets}
+
+## Museum Laws
+
+- Package: `${package_name}`
+- Non-Constellation Python only — nodes and constellation_* deps use sibling templates.
+- Do not add repository-local CI orchestration — CI execution semantics belong to l9-ci-core; organization CI control belongs to l9-ci-control-plane.
+- Test isolation pattern: `${test_isolation_pattern}`

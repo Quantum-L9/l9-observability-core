@@ -1,0 +1,37 @@
+{
+  "attempt_id": "attempt-1",
+  "attempt_number": 1,
+  "attributes": {},
+  "event_id": "evt-pe-1",
+  "event_type": "attempt",
+  "evidence_refs": [
+    {
+      "digest": null,
+      "kind": "receipt",
+      "media_type": "application/json",
+      "ref": "attempt-receipt.json",
+      "revision": null
+    }
+  ],
+  "execution": {
+    "attempt_id": "attempt-1",
+    "campaign_id": "campaign-1",
+    "component": "Cursor-Governance",
+    "operation": "program_execution_task",
+    "phase": "implementation",
+    "program_id": "program-1",
+    "run_id": "run-1",
+    "session_id": null,
+    "task_id": "TASK-001"
+  },
+  "occurred_at": "2026-08-23T21:00:03Z",
+  "prior_attempt_id": null,
+  "retry_reason": null,
+  "schema": "l9.observability.attempt-event.v1",
+  "status": "completed",
+  "trace": {
+    "parent_span_id": null,
+    "span_id": "span-pe-attempt-1",
+    "trace_id": "trace-pe-1"
+  }
+}

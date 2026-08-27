@@ -1,0 +1,131 @@
+{
+  "$id": "urn:quantum-l9:observability:v1:validation-event",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "pass"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "properties": {
+          "failure_count": {
+            "const": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "fail"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "properties": {
+          "failure_count": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "not_run"
+          }
+        },
+        "required": [
+          "outcome"
+        ]
+      },
+      "then": {
+        "properties": {
+          "failure_count": {
+            "const": 0
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "attributes": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Attributes",
+      "default": {}
+    },
+    "event_id": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "event_type": {
+      "const": "validation"
+    },
+    "evidence_refs": {
+      "default": [],
+      "items": {
+        "$ref": "urn:quantum-l9:observability:v1:evidence-ref"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "execution": {
+      "$ref": "urn:quantum-l9:observability:v1:execution-context"
+    },
+    "failure_count": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/NonNegativeInteger"
+    },
+    "occurred_at": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Timestamp"
+    },
+    "outcome": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/ValidationOutcome"
+    },
+    "schema": {
+      "const": "l9.observability.validation-event.v1"
+    },
+    "summary": {
+      "default": null,
+      "maxLength": 1024,
+      "minLength": 1,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "trace": {
+      "$ref": "urn:quantum-l9:observability:v1:trace-context"
+    },
+    "validator": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    }
+  },
+  "required": [
+    "schema",
+    "event_type",
+    "event_id",
+    "occurred_at",
+    "trace",
+    "execution",
+    "validator",
+    "outcome",
+    "failure_count"
+  ],
+  "type": "object",
+  "x-l9-invariants": [
+    "outcome pass MUST have failure_count 0",
+    "outcome fail MUST have failure_count at least 1",
+    "outcome not_run MUST have failure_count 0"
+  ]
+}

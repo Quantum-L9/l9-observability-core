@@ -1,0 +1,44 @@
+{
+  "config": "plugin-config.yaml",
+  "config_sha256": "57560d9de980f174cd7abd4d85578d141f7c3c6f05fe8d397a734f99a1c68dd1",
+  "rendered_at": "2026-08-27T01:24:40.325193+00:00",
+  "renderer": "scripts/render_cursor_rules.py",
+  "rules": [
+    {
+      "output": ".cursor/rules/00-global.mdc",
+      "output_sha256": "02d9b63ac20d90fb6f8d3a0c57575417b755455d978858944e3fde78f554ff93",
+      "render_id": "41b3c68b04824371adb2e32b5cbd174112d20eb4407e2b64b709d2ddc68f5231",
+      "template": ".cursor/rules/templates/00-global.mdc.template",
+      "template_sha256": "d2d7516dc8afaacc58264108e72221f74ebc6139e948c55a8eaf7b49097c9eb8"
+    },
+    {
+      "output": ".cursor/rules/10-domain-cartridge.mdc",
+      "output_sha256": "baf41e5a801a9a5a88b7c6832d5639f273071691e07176094d6aeb2fdb74db38",
+      "render_id": "b1fa4e2987bc053b43290d93cb1af5f8b5c345d7dc494cdbf6619ba46cb2d8c2",
+      "template": ".cursor/rules/templates/10-domain-cartridge.mdc.template",
+      "template_sha256": "9eb1c85dbfa2d44905e1b0cc73c5ab54bb2e0df2b2f4dd386a7e491944406a52"
+    },
+    {
+      "output": ".cursor/rules/fastapi.mdc",
+      "output_sha256": "cb0191d4b75df2f3ee7d10aa79bc2017bd70c5fb9b2f3bcb2b4d80dcdce8bc53",
+      "render_id": "e2a3b959ada74e3f4b8ee50745f3354d7351a892f3b85c98d6ee7952e855d88c",
+      "template": ".cursor/rules/templates/fastapi.mdc.template",
+      "template_sha256": "55e0846e00084def52a6a164bfedf48dc050580f52a07ab12321ca42e96eac6f"
+    },
+    {
+      "output": ".cursor/rules/l9-agents.mdc",
+      "output_sha256": "ffb79b6538fbeddeff5bf9f98008a3a9890c4ca284d18d2b08fd62ff649c5e27",
+      "render_id": "0ff38402dc62a7cb1a37a435cdb30f8abbe6416cb9cdfd8e3beeb4193aafab01",
+      "template": ".cursor/rules/templates/l9-agents.mdc.template",
+      "template_sha256": "e7354122352ae6fd05ca2071664edf9dbe87c55352ba91b6d485001e5f67dd03"
+    },
+    {
+      "output": ".cursor/rules/l9-python-repo.mdc",
+      "output_sha256": "af01c35d0c8c356404f4f816044981052d85acbc593042f4727576a635e5b683",
+      "render_id": "d5c13d42520bd6fe04e83cdd08e9b913c7a369738bf87dd41b16966aca6953b0",
+      "template": ".cursor/rules/templates/l9-python-repo.mdc.template",
+      "template_sha256": "a7cf6dc2973684b1f718e9926bd38c895a91e552be4ece627f12fde1f5262a82"
+    }
+  ],
+  "schema": "l9.cursor_rules.render_manifest.v1"
+}

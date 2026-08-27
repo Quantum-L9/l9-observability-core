@@ -1,0 +1,28 @@
+{
+  "attributes": {},
+  "event_id": "evt-validation-1",
+  "event_type": "validation",
+  "evidence_refs": [],
+  "execution": {
+    "attempt_id": null,
+    "campaign_id": null,
+    "component": "l9-cognitive-runtime",
+    "operation": "validate_runtime_bundle",
+    "phase": "validation",
+    "program_id": null,
+    "run_id": "run-validation-1",
+    "session_id": null,
+    "task_id": "task-validation-1"
+  },
+  "failure_count": 0,
+  "occurred_at": "2026-08-25T21:00:04Z",
+  "outcome": "pass",
+  "schema": "l9.observability.validation-event.v1",
+  "summary": "Runtime bundle validation passed.",
+  "trace": {
+    "parent_span_id": "span-validation-parent",
+    "span_id": "span-validation-1",
+    "trace_id": "trace-validation-1"
+  },
+  "validator": "runtime_bundle_contract"
+}

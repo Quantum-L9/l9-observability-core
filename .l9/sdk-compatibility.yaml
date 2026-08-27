@@ -1,0 +1,13 @@
+schema: l9.sdk-compatibility/v1
+repository: Quantum-L9/l9-observability-core
+role: utility-library
+notes: >
+  Backend-neutral observability contract library. It does not require
+  constellation-node-sdk; node and dependency-package compatibility remain
+  owned by their sibling templates. Python 3.11 is the public compatibility
+  floor required by the current l9-cognitive-runtime consumer.
+deferred:
+  constellation_nodes: Quantum-L9/L9-Node-Template
+  constellation_deps: Quantum-L9/Constellation.PackageTemplate
+python: ">=3.11"
+package_manager: uv

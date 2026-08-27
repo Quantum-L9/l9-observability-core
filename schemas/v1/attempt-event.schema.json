@@ -1,0 +1,130 @@
+{
+  "$id": "urn:quantum-l9:observability:v1:attempt-event",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "attempt_number": {
+            "const": 1
+          }
+        },
+        "required": [
+          "attempt_number"
+        ]
+      },
+      "then": {
+        "properties": {
+          "prior_attempt_id": {
+            "type": "null"
+          },
+          "retry_reason": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "attempt_number": {
+            "minimum": 2
+          }
+        },
+        "required": [
+          "attempt_number"
+        ]
+      },
+      "then": {
+        "properties": {
+          "prior_attempt_id": {
+            "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+          }
+        },
+        "required": [
+          "prior_attempt_id"
+        ]
+      }
+    }
+  ],
+  "properties": {
+    "attempt_id": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "attempt_number": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/PositiveInteger"
+    },
+    "attributes": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Attributes",
+      "default": {}
+    },
+    "event_id": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "event_type": {
+      "const": "attempt"
+    },
+    "evidence_refs": {
+      "default": [],
+      "items": {
+        "$ref": "urn:quantum-l9:observability:v1:evidence-ref"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "execution": {
+      "$ref": "urn:quantum-l9:observability:v1:execution-context"
+    },
+    "occurred_at": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Timestamp"
+    },
+    "prior_attempt_id": {
+      "default": null,
+      "oneOf": [
+        {
+          "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "retry_reason": {
+      "default": null,
+      "maxLength": 512,
+      "minLength": 1,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "schema": {
+      "const": "l9.observability.attempt-event.v1"
+    },
+    "status": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/EventStatus"
+    },
+    "trace": {
+      "$ref": "urn:quantum-l9:observability:v1:trace-context"
+    }
+  },
+  "required": [
+    "schema",
+    "event_type",
+    "event_id",
+    "occurred_at",
+    "trace",
+    "execution",
+    "attempt_id",
+    "attempt_number",
+    "status"
+  ],
+  "type": "object",
+  "x-l9-invariants": [
+    "attempt 1 MUST NOT declare prior_attempt_id or retry_reason",
+    "attempt_number greater than 1 MUST declare prior_attempt_id",
+    "prior_attempt_id MUST NOT equal attempt_id",
+    "execution.attempt_id, when present, MUST equal attempt_id"
+  ]
+}

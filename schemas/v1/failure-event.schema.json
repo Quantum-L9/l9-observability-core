@@ -1,0 +1,78 @@
+{
+  "$id": "urn:quantum-l9:observability:v1:failure-event",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "attributes": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Attributes",
+      "default": {}
+    },
+    "causal_event_refs": {
+      "default": [],
+      "items": {
+        "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "event_id": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "event_type": {
+      "const": "failure"
+    },
+    "evidence_refs": {
+      "default": [],
+      "items": {
+        "$ref": "urn:quantum-l9:observability:v1:evidence-ref"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
+    "execution": {
+      "$ref": "urn:quantum-l9:observability:v1:execution-context"
+    },
+    "failure_class": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/FailureClass"
+    },
+    "failure_code": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Identifier"
+    },
+    "message": {
+      "default": null,
+      "maxLength": 2048,
+      "minLength": 1,
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "occurred_at": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/Timestamp"
+    },
+    "retryable": {
+      "type": "boolean"
+    },
+    "schema": {
+      "const": "l9.observability.failure-event.v1"
+    },
+    "trace": {
+      "$ref": "urn:quantum-l9:observability:v1:trace-context"
+    }
+  },
+  "required": [
+    "schema",
+    "event_type",
+    "event_id",
+    "occurred_at",
+    "trace",
+    "execution",
+    "failure_class",
+    "failure_code",
+    "retryable"
+  ],
+  "type": "object",
+  "x-l9-invariants": [
+    "causal_event_refs MUST NOT contain this event event_id"
+  ]
+}

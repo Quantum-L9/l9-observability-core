@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=75.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "l9-observability-core"
+version = "1.0.0"
+description = "Canonical, backend-neutral observability domain contracts for Quantum-L9"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "LicenseRef-Proprietary"
+classifiers = [
+  "Typing :: Typed",
+]
+dependencies = [
+  "pydantic>=2.12,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.2,<2",
+  "jsonschema>=4.26,<5",
+  "mypy==2.3.0",
+  "pytest>=9,<10",
+ "pyyaml>=6.0.2",
+  "referencing>=0.37,<1",
+  "ruff==0.16.1",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"l9_observability_core" = ["py.typed"]
+
+[tool.setuptools.data-files]
+"share/l9-observability-core/schemas/v1" = ["schemas/v1/*.json"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+exclude = ["tools/l9_repo"]
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "I", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+mypy_path = "src"
+packages = ["l9_observability_core"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-W error"

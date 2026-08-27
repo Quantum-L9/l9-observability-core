@@ -1,0 +1,31 @@
+{
+  "attributes": {
+    "trust_level": "L2"
+  },
+  "completed_at": "2026-08-23T21:00:00.250Z",
+  "duration_ms": 250,
+  "event_id": "evt-ops-1",
+  "event_type": "execution_span",
+  "evidence_refs": [],
+  "execution": {
+    "attempt_id": null,
+    "campaign_id": null,
+    "component": "L9-Ops-MCP",
+    "operation": "context_resolve",
+    "phase": "context",
+    "program_id": null,
+    "run_id": "run-1",
+    "session_id": "session-1",
+    "task_id": "task-1"
+  },
+  "occurred_at": "2026-08-23T21:00:00.250Z",
+  "schema": "l9.observability.execution-span.v1",
+  "span_kind": "server",
+  "started_at": "2026-08-23T21:00:00Z",
+  "status": "completed",
+  "trace": {
+    "parent_span_id": null,
+    "span_id": "span-ops-1",
+    "trace_id": "trace-ops-1"
+  }
+}

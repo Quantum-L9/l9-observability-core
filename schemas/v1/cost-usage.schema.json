@@ -1,0 +1,19 @@
+{
+  "$id": "urn:quantum-l9:observability:v1:cost-usage",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "amount_microunits": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/NonNegativeInteger"
+    },
+    "currency": {
+      "pattern": "^[A-Z]{3}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "currency",
+    "amount_microunits"
+  ],
+  "type": "object"
+}

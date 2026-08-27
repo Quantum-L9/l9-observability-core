@@ -1,0 +1,58 @@
+{
+  "$id": "urn:quantum-l9:observability:v1:token-usage",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cache_read_tokens": {
+      "default": null,
+      "oneOf": [
+        {
+          "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/NonNegativeInteger"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "cache_write_tokens": {
+      "default": null,
+      "oneOf": [
+        {
+          "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/NonNegativeInteger"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "input_tokens": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/NonNegativeInteger"
+    },
+    "output_tokens": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/NonNegativeInteger"
+    },
+    "reasoning_tokens": {
+      "default": null,
+      "oneOf": [
+        {
+          "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/NonNegativeInteger"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "total_tokens": {
+      "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/NonNegativeInteger"
+    }
+  },
+  "required": [
+    "input_tokens",
+    "output_tokens",
+    "total_tokens"
+  ],
+  "type": "object",
+  "x-l9-invariants": [
+    "supplementary token counters are not assumed additive; null means not reported and 0 means observed zero"
+  ]
+}

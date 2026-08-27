@@ -1,0 +1,140 @@
+{
+  "$defs": {
+    "Attributes": {
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "maxLength": 512,
+            "type": "string"
+          },
+          {
+            "$ref": "urn:quantum-l9:observability:v1:definitions#/$defs/JsonSafeInteger"
+          },
+          {
+            "type": "boolean"
+          }
+        ]
+      },
+      "maxProperties": 32,
+      "propertyNames": {
+        "allOf": [
+          {
+            "pattern": "^[a-z0-9][a-z0-9_.-]{0,63}$"
+          },
+          {
+            "not": {
+              "pattern": "(secret|password|passwd|token|api_key|apikey|authorization|cookie|credential)"
+            }
+          }
+        ]
+      },
+      "type": "object"
+    },
+    "Digest": {
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "type": "string"
+    },
+    "EffectivenessSignal": {
+      "enum": [
+        "positive",
+        "neutral",
+        "negative",
+        "unknown",
+        "not_applicable"
+      ]
+    },
+    "EventStatus": {
+      "enum": [
+        "completed",
+        "failed",
+        "blocked",
+        "cancelled",
+        "unknown"
+      ]
+    },
+    "FailureClass": {
+      "enum": [
+        "validation",
+        "timeout",
+        "dependency",
+        "authorization",
+        "policy",
+        "tool",
+        "network",
+        "resource",
+        "data",
+        "internal",
+        "unknown"
+      ]
+    },
+    "Identifier": {
+      "maxLength": 256,
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]*$",
+      "type": "string"
+    },
+    "JsonSafeInteger": {
+      "maximum": 9007199254740991,
+      "minimum": -9007199254740991,
+      "type": "integer"
+    },
+    "NonNegativeInteger": {
+      "maximum": 9007199254740991,
+      "minimum": 0,
+      "type": "integer"
+    },
+    "OutcomeKind": {
+      "enum": [
+        "completed",
+        "artifact_produced",
+        "state_changed",
+        "effect_observed",
+        "no_effect",
+        "rolled_back",
+        "unknown"
+      ]
+    },
+    "PositiveInteger": {
+      "maximum": 9007199254740991,
+      "minimum": 1,
+      "type": "integer"
+    },
+    "SpanKind": {
+      "enum": [
+        "internal",
+        "server",
+        "client",
+        "producer",
+        "consumer",
+        "agent",
+        "validation",
+        "deployment"
+      ]
+    },
+    "Timestamp": {
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}[Tt]\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?(?:[Zz]|[+-]\\d{2}:\\d{2})$",
+      "type": "string"
+    },
+    "ToolOutcome": {
+      "enum": [
+        "completed",
+        "failed",
+        "blocked",
+        "cancelled",
+        "unknown"
+      ]
+    },
+    "ValidationOutcome": {
+      "enum": [
+        "pass",
+        "fail",
+        "blocked",
+        "unknown",
+        "not_run"
+      ]
+    }
+  },
+  "$id": "urn:quantum-l9:observability:v1:definitions",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

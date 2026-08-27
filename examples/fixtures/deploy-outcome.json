@@ -1,0 +1,37 @@
+{
+  "attributes": {},
+  "effectiveness_signal": "not_applicable",
+  "event_id": "evt-deploy-1",
+  "event_type": "outcome",
+  "evidence_refs": [
+    {
+      "digest": null,
+      "kind": "receipt",
+      "media_type": "application/json",
+      "ref": "deployment-receipt.json",
+      "revision": null
+    }
+  ],
+  "execution": {
+    "attempt_id": null,
+    "campaign_id": null,
+    "component": "l9-deploy",
+    "operation": "deploy_release",
+    "phase": "promotion",
+    "program_id": null,
+    "run_id": "deploy-run-1",
+    "session_id": null,
+    "task_id": null
+  },
+  "occurred_at": "2026-08-23T21:05:00Z",
+  "outcome_kind": "state_changed",
+  "result_ref": null,
+  "schema": "l9.observability.outcome-event.v1",
+  "success": true,
+  "summary": "Approved release promoted.",
+  "trace": {
+    "parent_span_id": null,
+    "span_id": "span-deploy-1",
+    "trace_id": "trace-deploy-1"
+  }
+}

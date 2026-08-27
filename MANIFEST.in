@@ -1,0 +1,22 @@
+include README.md
+include RUNBOOK.md
+include VALIDATION.md
+include CHANGELOG.md
+include AGENTS.md
+include ARCHITECTURE.md
+include CLAUDE.md
+include INVARIANTS.md
+include MANIFEST.sha256
+include Makefile
+include Repo.mk
+include pyproject.toml
+include uv.lock
+include requirements-repo-runtime.txt
+recursive-include docs *.md
+recursive-include examples *.md *.json
+recursive-include schemas *.json
+recursive-include .l9 *.yaml *.json
+recursive-include tests *.py
+recursive-include scripts *.py
+recursive-include tools *.py *.template
+include src/l9_observability_core/py.typed

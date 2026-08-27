@@ -1,0 +1,38 @@
+{
+  "attributes": {},
+  "cost": {
+    "amount_microunits": 125000,
+    "currency": "USD"
+  },
+  "event_id": "evt-usage-1",
+  "event_type": "usage",
+  "evidence_refs": [],
+  "execution": {
+    "attempt_id": "attempt-usage-1",
+    "campaign_id": null,
+    "component": "model-runtime",
+    "operation": "reason",
+    "phase": "inference",
+    "program_id": null,
+    "run_id": "run-usage-1",
+    "session_id": "session-usage-1",
+    "task_id": "task-usage-1"
+  },
+  "model": "reasoning-model-v1",
+  "occurred_at": "2026-08-25T21:00:06Z",
+  "provider": "provider-example",
+  "schema": "l9.observability.usage-event.v1",
+  "tokens": {
+    "cache_read_tokens": null,
+    "cache_write_tokens": null,
+    "input_tokens": 1200,
+    "output_tokens": 350,
+    "reasoning_tokens": 200,
+    "total_tokens": 1550
+  },
+  "trace": {
+    "parent_span_id": "span-usage-parent",
+    "span_id": "span-usage-1",
+    "trace_id": "trace-usage-1"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "attributes": {},
+  "causal_event_refs": ["evt-failed-span-1"],
+  "event_id": "evt-failure-1",
+  "event_type": "failure",
+  "evidence_refs": [],
+  "execution": {
+    "attempt_id": null,
+    "campaign_id": null,
+    "component": "l9-cognitive-runtime",
+    "operation": "compile_runtime",
+    "phase": "compile",
+    "program_id": null,
+    "run_id": "run-failure-1",
+    "session_id": null,
+    "task_id": "task-failure-1"
+  },
+  "failure_class": "validation",
+  "failure_code": "compile.invalid_input",
+  "message": "Compile input failed validation.",
+  "occurred_at": "2026-08-25T21:00:05Z",
+  "retryable": false,
+  "schema": "l9.observability.failure-event.v1",
+  "trace": {
+    "parent_span_id": null,
+    "span_id": "span-failure-1",
+    "trace_id": "trace-failure-1"
+  }
+}

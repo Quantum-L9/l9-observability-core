@@ -1,0 +1,52 @@
+<!-- L9_RENDERED
+template: .cursor/rules/templates/l9-agents.mdc.template
+template_sha256: e7354122352ae6fd05ca2071664edf9dbe87c55352ba91b6d485001e5f67dd03
+config: plugin-config.yaml
+config_sha256: 57560d9de980f174cd7abd4d85578d141f7c3c6f05fe8d397a734f99a1c68dd1
+render_id: 0ff38402dc62a7cb1a37a435cdb30f8abbe6416cb9cdfd8e3beeb4193aafab01
+/L9_RENDERED -->
+---
+description: "l9-repo-template autonomous agent guardrails — generated from domain cartridge"
+globs: ["AGENTS.md", "scripts/**", "Makefile", "Repo.mk"]
+alwaysApply: false
+---
+<!-- L9_META role: cursor_rule tags: [agents, generated, l9-python-museum] version: 1.2.0 /L9_META -->
+
+# Agent Guardrails — l9-repo-template
+
+> This file is generated from .cursor/rules/templates/*.mdc.template. Do not edit directly; edit the template or plugin-config.yaml.
+
+## Before Multi-File Tasks
+
+1. State the TODO plan with exact file paths.
+2. Mark every planned change as PENDING, APPLIED, then VERIFIED.
+3. Run the CI gates before declaring completion.
+
+## Stop-and-Ask Conditions
+
+- Any protected path:
+- `uv.lock`
+- `pyproject.toml`
+- `.l9/runtime-provenance.yaml`
+- `scripts/bootstrap_rename.py`
+- `scripts/inventory_check.py`
+- `scripts/repo_hygiene_audit.py`
+- `Makefile`
+- `tools/l9_repo/**`
+
+- Any high-risk command:
+- `git push --force`
+- `rm -rf .venv`
+
+## CI Gates
+
+- `make verify`
+- `make check-rules`
+- `make hygiene-check`
+
+## Museum Laws
+
+- Package: `l9_observability_core`
+- Non-Constellation Python only — nodes and constellation_* deps use sibling templates.
+- Do not add repository-local CI orchestration — CI execution semantics belong to l9-ci-core; organization CI control belongs to l9-ci-control-plane.
+- Test isolation pattern: `none`

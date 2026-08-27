@@ -1,0 +1,30 @@
+{
+  "action": "fetch_file",
+  "attributes": {},
+  "duration_ms": 84,
+  "event_id": "evt-goose-1",
+  "event_type": "tool_call",
+  "evidence_refs": [],
+  "execution": {
+    "attempt_id": "attempt-1",
+    "campaign_id": null,
+    "component": "l9-goose",
+    "operation": "tool_call",
+    "phase": "execute",
+    "program_id": null,
+    "run_id": "run-1",
+    "session_id": "session-1",
+    "task_id": "task-1"
+  },
+  "occurred_at": "2026-08-23T21:00:02Z",
+  "outcome": "completed",
+  "request_ref": null,
+  "result_ref": null,
+  "schema": "l9.observability.tool-call-event.v1",
+  "tool": "github",
+  "trace": {
+    "parent_span_id": "span-goose-1",
+    "span_id": "span-goose-tool-1",
+    "trace_id": "trace-goose-1"
+  }
+}

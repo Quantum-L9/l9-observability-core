@@ -1,0 +1,90 @@
+<!-- L9_RENDERED
+template: .cursor/rules/templates/10-domain-cartridge.mdc.template
+template_sha256: 9eb1c85dbfa2d44905e1b0cc73c5ab54bb2e0df2b2f4dd386a7e491944406a52
+config: plugin-config.yaml
+config_sha256: 57560d9de980f174cd7abd4d85578d141f7c3c6f05fe8d397a734f99a1c68dd1
+render_id: b1fa4e2987bc053b43290d93cb1af5f8b5c345d7dc494cdbf6619ba46cb2d8c2
+/L9_RENDERED -->
+---
+description: "Domain cartridge rule — generated from plugin-config.yaml"
+globs: [".cursor/rules/**", "plugin-config.yaml", "scripts/render_cursor_rules.py"]
+alwaysApply: false
+---
+<!-- L9_META role: cursor_rule tags: [domain-cartridge, generated, l9-python-museum] version: 1.2.0 /L9_META -->
+
+# Domain Cartridge Convention
+
+> This file is generated from .cursor/rules/templates/*.mdc.template. Do not edit directly; edit the template or plugin-config.yaml.
+
+## Core Law
+
+Rules must be reusable across repos. Repo-specific values belong in `plugin-config.yaml`, not hardcoded inside `.mdc` files.
+
+## Current Cartridge
+
+- Repo: `l9-repo-template`
+- Domain: `l9-python-museum`
+- Plugin version: `1.2.0`
+- Config SHA: `57560d9de980`
+
+## Template Variables
+
+The renderer exposes scalar config keys directly and list keys as bullet/list/json variants:
+
+- `- `uv.lock`
+- `pyproject.toml`
+- `.l9/runtime-provenance.yaml`
+- `scripts/bootstrap_rename.py`
+- `scripts/inventory_check.py`
+- `scripts/repo_hygiene_audit.py`
+- `Makefile`
+- `tools/l9_repo/**`` / `- `uv.lock`
+- `pyproject.toml`
+- `.l9/runtime-provenance.yaml`
+- `scripts/bootstrap_rename.py`
+- `scripts/inventory_check.py`
+- `scripts/repo_hygiene_audit.py`
+- `Makefile`
+- `tools/l9_repo/**`` / ``uv.lock`, `pyproject.toml`, `.l9/runtime-provenance.yaml`, `scripts/bootstrap_rename.py`, `scripts/inventory_check.py`, `scripts/repo_hygiene_audit.py`, `Makefile`, `tools/l9_repo/**`` / `[
+  "uv.lock",
+  "pyproject.toml",
+  ".l9/runtime-provenance.yaml",
+  "scripts/bootstrap_rename.py",
+  "scripts/inventory_check.py",
+  "scripts/repo_hygiene_audit.py",
+  "Makefile",
+  "tools/l9_repo/**"
+]`
+- `- `git push --force`
+- `rm -rf .venv`` / `- `git push --force`
+- `rm -rf .venv`` / ``git push --force`, `rm -rf .venv`` / `[
+  "git push --force",
+  "rm -rf .venv"
+]`
+- `- `make verify`
+- `make check-rules`
+- `make hygiene-check`` / `- `make verify`
+- `make check-rules`
+- `make hygiene-check`` / ``make verify`, `make check-rules`, `make hygiene-check`` / `[
+  "make verify",
+  "make check-rules",
+  "make hygiene-check"
+]`
+
+## Graph Record
+
+```json
+{
+  "capabilities": [
+    "verify",
+    "rename",
+    "render-rules",
+    "hygiene-check",
+    "birth-runner",
+    "obs-optional"
+  ],
+  "data_governance_class": "internal",
+  "maintenance_owner": "Quantum-L9/platform",
+  "node_type": "plugin_install"
+}
+```
