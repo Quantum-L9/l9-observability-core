@@ -8,6 +8,7 @@ endif
 PYTHON ?= python3
 
 .PHONY: help install-dev lint typecheck inventory-check hygiene-check schema-check \
+	check-config reconcile-config check-rules render-rules \
 	compile-check verify ci pr-check build regenerate-manifest \
 	gov-pr-check gov-pr gov-start gov-wiring-check
 
@@ -46,7 +47,19 @@ schema-check: ## Validate the canonical observability JSON Schemas and fixtures
 compile-check: ## Compile source and tests without writing bytecode into the repository
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -m compileall -q src tests tools scripts
 
-verify: validate check test schema-check compile-check ## Full deterministic local repository verification
+check-config: ## Fail if plugin-config.yaml claims what this repository is not
+	$(PYTHON) scripts/reconcile_plugin_config.py --check
+
+reconcile-config: ## Rewrite plugin-config.yaml to describe this repository
+	$(PYTHON) scripts/reconcile_plugin_config.py
+
+check-rules: ## Fail if the generated Cursor rules drift from templates + config
+	$(PYTHON) scripts/render_cursor_rules.py --check
+
+render-rules: ## Render .cursor/rules/*.mdc from templates + plugin-config.yaml
+	$(PYTHON) scripts/render_cursor_rules.py
+
+verify: validate check test schema-check compile-check check-config check-rules ## Full deterministic local repository verification
 
 ci: verify ## Repository-local execution alias; organization CI remains externally owned
 

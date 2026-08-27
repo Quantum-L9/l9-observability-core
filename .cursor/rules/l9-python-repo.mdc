@@ -2,17 +2,17 @@
 template: .cursor/rules/templates/l9-python-repo.mdc.template
 template_sha256: a7cf6dc2973684b1f718e9926bd38c895a91e552be4ece627f12fde1f5262a82
 config: plugin-config.yaml
-config_sha256: 57560d9de980f174cd7abd4d85578d141f7c3c6f05fe8d397a734f99a1c68dd1
-render_id: d5c13d42520bd6fe04e83cdd08e9b913c7a369738bf87dd41b16966aca6953b0
+config_sha256: 8c06add1d58d7b23c142621c5dcfd4d68a9f8c123a6ad1960060d43d814e3690
+render_id: 97dca864928ed3cd3f4bcd17d66ee18bdf8438242d8daf089c6707e949e38430
 /L9_RENDERED -->
 ---
-description: "l9-repo-template Quantum-L9 Python museum invariants — generated"
+description: "l9-observability-core Quantum-L9 Python museum invariants — generated"
 globs: ["src/**/*.py", "scripts/**", "AGENTS.md", "docs/**"]
 alwaysApply: true
 ---
-<!-- L9_META role: cursor_rule tags: [l9, python, museum, l9-python-museum] version: 1.2.0 /L9_META -->
+<!-- L9_META role: cursor_rule tags: [l9, python, museum, observability-domain-contract-library] version: 1.2.0 /L9_META -->
 
-# Quantum-L9 Python Museum — l9-repo-template
+# Quantum-L9 Python Museum — l9-observability-core
 
 > This file is generated from .cursor/rules/templates/*.mdc.template. Do not edit directly; edit the template or plugin-config.yaml.
 

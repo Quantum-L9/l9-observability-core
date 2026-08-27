@@ -2,15 +2,15 @@
 template: .cursor/rules/templates/10-domain-cartridge.mdc.template
 template_sha256: 9eb1c85dbfa2d44905e1b0cc73c5ab54bb2e0df2b2f4dd386a7e491944406a52
 config: plugin-config.yaml
-config_sha256: 57560d9de980f174cd7abd4d85578d141f7c3c6f05fe8d397a734f99a1c68dd1
-render_id: b1fa4e2987bc053b43290d93cb1af5f8b5c345d7dc494cdbf6619ba46cb2d8c2
+config_sha256: 8c06add1d58d7b23c142621c5dcfd4d68a9f8c123a6ad1960060d43d814e3690
+render_id: 0fa8ea39fb1624219a2c292a96139a94b6e9d9ee995ebc73a53465a2111275ba
 /L9_RENDERED -->
 ---
 description: "Domain cartridge rule — generated from plugin-config.yaml"
 globs: [".cursor/rules/**", "plugin-config.yaml", "scripts/render_cursor_rules.py"]
 alwaysApply: false
 ---
-<!-- L9_META role: cursor_rule tags: [domain-cartridge, generated, l9-python-museum] version: 1.2.0 /L9_META -->
+<!-- L9_META role: cursor_rule tags: [domain-cartridge, generated, observability-domain-contract-library] version: 1.2.0 /L9_META -->
 
 # Domain Cartridge Convention
 
@@ -22,10 +22,10 @@ Rules must be reusable across repos. Repo-specific values belong in `plugin-conf
 
 ## Current Cartridge
 
-- Repo: `l9-repo-template`
-- Domain: `l9-python-museum`
+- Repo: `l9-observability-core`
+- Domain: `observability-domain-contract-library`
 - Plugin version: `1.2.0`
-- Config SHA: `57560d9de980`
+- Config SHA: `8c06add1d58d`
 
 ## Template Variables
 
@@ -80,9 +80,15 @@ The renderer exposes scalar config keys directly and list keys as bullet/list/js
     "rename",
     "render-rules",
     "hygiene-check",
-    "birth-runner",
-    "obs-optional"
+    "birth-runner"
   ],
+  "capability_evidence": {
+    "birth-runner": "scripts/birth-runner/new_repo.py",
+    "hygiene-check": "scripts/repo_hygiene_audit.py",
+    "rename": "scripts/bootstrap_rename.py",
+    "render-rules": "scripts/render_cursor_rules.py",
+    "verify": "Repo.mk"
+  },
   "data_governance_class": "internal",
   "maintenance_owner": "Quantum-L9/platform",
   "node_type": "plugin_install"

@@ -66,7 +66,8 @@ Ground truth for this section is the current `Makefile` and `pyproject.toml`.
 | mypy | Python 3.11, `strict = true`, `warn_return_any = true`, `warn_unused_configs = true`, package scope `l9_observability_core`. |
 | pytest | Test root `tests/`; warnings are errors via `-W error`. |
 | Repository-execution contract | `.l9/repo-workflow.json` owns setup/validate/check/test execution; `tools/l9_repo` executes it. |
-| Local verification | `make verify` composes canonical `validate`, `check`, and `test` with schema + compile checks from `Repo.mk`. |
+| Local verification | `make verify` composes canonical `validate`, `check`, and `test` with schema, compile, config-semantics, and generated-rule checks from `Repo.mk`. |
+| Agent-facing metadata | `plugin-config.yaml` and `.cursor/rules/*.mdc` are derived, not authored: identity comes from `.l9/architecture.yaml`, and an entrypoint or capability survives only while the tree proves it. Run `make reconcile-config` then `make render-rules`; never hand-edit the generated `.mdc`. |
 | Deterministic subset | `make test`, `make schema-check`, and `make compile-check` remain independently runnable when optional static-analysis tools are unavailable. |
 
 Current repository inventory contains 14 canonical JSON Schemas, 19 `test_*.py` test modules,
