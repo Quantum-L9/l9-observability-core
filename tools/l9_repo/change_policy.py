@@ -2,9 +2,10 @@ from __future__ import annotations
 
 import re
 import subprocess
+from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
-from typing import Any, Sequence
+from typing import Any
 
 
 class ChangePolicyError(RuntimeError):
@@ -81,23 +82,15 @@ def _lines(proc: subprocess.CompletedProcess[str], failure: str) -> list[str]:
 
 def _normalize_repo_path(path: str) -> str:
     if not path or "\x00" in path or "\n" in path or "\r" in path:
-        raise ChangePolicyError(
-            "changed file path must be a non-empty single-line path"
-        )
+        raise ChangePolicyError("changed file path must be a non-empty single-line path")
     if "\\" in path:
-        raise ChangePolicyError(
-            f"changed file path must use POSIX separators: {path!r}"
-        )
+        raise ChangePolicyError(f"changed file path must use POSIX separators: {path!r}")
     candidate = PurePosixPath(path)
     if candidate.is_absolute() or ".." in candidate.parts or path.startswith("./"):
-        raise ChangePolicyError(
-            f"changed file path is not canonical repository-relative: {path!r}"
-        )
+        raise ChangePolicyError(f"changed file path is not canonical repository-relative: {path!r}")
     normalized = candidate.as_posix()
     if normalized in {"", "."} or normalized != path:
-        raise ChangePolicyError(
-            f"changed file path is not canonical repository-relative: {path!r}"
-        )
+        raise ChangePolicyError(f"changed file path is not canonical repository-relative: {path!r}")
     return normalized
 
 
@@ -148,9 +141,7 @@ def _comparison_files(root: Path, base_ref: str, head_ref: str) -> list[str]:
         raise ChangePolicyError(
             f"expected one merge-base for {base_ref} and {head_ref}, got {len(bases)}"
         )
-    return _run_git_paths(
-        root, "diff", "--no-renames", "--name-only", bases[0], head_ref
-    )
+    return _run_git_paths(root, "diff", "--no-renames", "--name-only", bases[0], head_ref)
 
 
 def resolve_changed_files(
@@ -235,9 +226,7 @@ def select_gates(policy: dict[str, Any], files: Sequence[str]) -> list[SelectedG
     return selected
 
 
-def companion_findings(
-    policy: dict[str, Any], files: Sequence[str]
-) -> list[CompanionFinding]:
+def companion_findings(policy: dict[str, Any], files: Sequence[str]) -> list[CompanionFinding]:
     findings: list[CompanionFinding] = []
     file_set = set(files)
     for rule in policy["companion_rules"]:
@@ -245,9 +234,7 @@ def companion_findings(
         if not hits:
             continue
         required_any = tuple(rule.get("require_any_prefix", ()))
-        missing_any = bool(required_any) and not any(
-            _matches(path, required_any) for path in files
-        )
+        missing_any = bool(required_any) and not any(_matches(path, required_any) for path in files)
         required_all = tuple(rule.get("require_all_paths", ()))
         missing_all = tuple(path for path in required_all if path not in file_set)
         if missing_any or missing_all:
