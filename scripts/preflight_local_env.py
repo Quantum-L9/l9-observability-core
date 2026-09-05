@@ -38,8 +38,13 @@ def parse_env(path: Path) -> dict[str, str]:
 
 
 def main(argv: list[str]) -> int:
+    # The default is anchored to the repository, not to the caller's cwd, so it
+    # resolves to the same file however the script is invoked -- and so it cannot
+    # fail containment against REPO_ROOT simply because someone ran it from a
+    # subdirectory.
+    default = str(REPO_ROOT / ".env.example")
     try:
-        path = resolve_under_repo(argv[1] if len(argv) > 1 else ".env.example")
+        path = resolve_under_repo(argv[1] if len(argv) > 1 else default)
     except ValueError as error:
         print(str(error), file=sys.stderr)
         return 2
