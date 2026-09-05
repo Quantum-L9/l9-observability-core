@@ -8,6 +8,23 @@ from pathlib import Path
 
 REQUIRED = ("L9_ENVIRONMENT",)
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+
+def resolve_under_repo(candidate: str) -> Path:
+    """Resolve ``candidate`` and require it to stay inside the repository.
+
+    The path arrives from ``argv``, so without containment a caller could point
+    this at any file on the host (``../../etc/shadow``) and have its contents
+    parsed and partially echoed back through the error paths below.
+    """
+    resolved = Path(candidate).resolve()
+    try:
+        resolved.relative_to(REPO_ROOT)
+    except ValueError as error:
+        raise ValueError(f"env file must be inside {REPO_ROOT}: {candidate!r}") from error
+    return resolved
+
 
 def parse_env(path: Path) -> dict[str, str]:
     out: dict[str, str] = {}
@@ -21,7 +38,16 @@ def parse_env(path: Path) -> dict[str, str]:
 
 
 def main(argv: list[str]) -> int:
-    path = Path(argv[1] if len(argv) > 1 else ".env.example")
+    # The default is anchored to the repository, not to the caller's cwd, so it
+    # resolves to the same file however the script is invoked -- and so it cannot
+    # fail containment against REPO_ROOT simply because someone ran it from a
+    # subdirectory.
+    default = str(REPO_ROOT / ".env.example")
+    try:
+        path = resolve_under_repo(argv[1] if len(argv) > 1 else default)
+    except ValueError as error:
+        print(str(error), file=sys.stderr)
+        return 2
     if not path.is_file():
         print(f"missing env file: {path}", file=sys.stderr)
         return 1

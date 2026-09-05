@@ -56,6 +56,28 @@ DEFAULT_OUTPUT_DIR = Path(".cursor/rules")
 DEFAULT_MANIFEST = Path(".cursor/rules/.render-manifest.json")
 
 
+def resolve_in_workspace(candidate: str, *, label: str) -> Path:
+    """Validate ``candidate`` stays inside the workspace; return it workspace-relative.
+
+    Every path below arrives from ``argv``. This renderer reads config and
+    templates and then *writes and deletes* ``.mdc`` files at the resolved
+    locations, so an unconstrained ``--output-dir`` would let a caller unlink
+    files anywhere the process can reach. All four paths are repository-relative
+    by design (see the ``DEFAULT_*`` values above), so confining them to the
+    workspace root costs no supported usage.
+
+    The workspace-relative form is returned rather than the absolute one on
+    purpose: these paths are embedded in the rendered ``.mdc`` headers and in
+    ``.render-manifest.json``, and an absolute path there would make both
+    machine-specific and break ``--check`` drift detection in CI.
+    """
+    workspace = Path.cwd().resolve()
+    try:
+        return Path(candidate).resolve().relative_to(workspace)
+    except ValueError as error:
+        raise SystemExit(f"{label} must stay inside {workspace}: {candidate!r}") from error
+
+
 @dataclass(frozen=True)
 class SkippedRule:
     template_path: Path
@@ -294,10 +316,10 @@ def write_manifest(
 
 
 def run(args: argparse.Namespace) -> int:
-    config_path = Path(args.config)
-    template_dir = Path(args.template_dir)
-    output_dir = Path(args.output_dir)
-    manifest_path = Path(args.manifest)
+    config_path = resolve_in_workspace(args.config, label="--config")
+    template_dir = resolve_in_workspace(args.template_dir, label="--template-dir")
+    output_dir = resolve_in_workspace(args.output_dir, label="--output-dir")
+    manifest_path = resolve_in_workspace(args.manifest, label="--manifest")
 
     config = load_config(config_path)
     config_sha = sha256_file(config_path)

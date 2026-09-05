@@ -17,7 +17,10 @@ jobs:
       actions: read
       checks: write
       contents: read
-    secrets: inherit
+    # No `secrets: inherit`. The nightly kernel declares no `workflow_call`
+    # secrets and uses only `secrets.GITHUB_TOKEN`, which GitHub provisions for
+    # reusable workflows automatically. Inheriting the full repository secret
+    # set would hand every credential to a workflow that needs none.
     with:
       python-version: "3.12"
       run-extended-tests: true

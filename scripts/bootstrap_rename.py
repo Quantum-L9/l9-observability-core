@@ -54,6 +54,27 @@ SKIP_REL_PATHS = {
 }
 
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+
+def resolve_within(root: Path, candidate: Path) -> Path:
+    """Return ``candidate`` resolved, having proved it stays under ``root``.
+
+    Second line of defence now that ``root`` is anchored to ``__file__``: a
+    symlink inside the checkout is still an escape ``rglob`` does not prevent.
+    ``Path.rglob`` will not recurse *into* a symlinked directory, but it does
+    yield a symlinked file, and ``write_text`` follows it — so a link pointing
+    outside the tree would be overwritten in place. Re-resolving at the sink
+    refuses that.
+    """
+    resolved = candidate.resolve()
+    try:
+        resolved.relative_to(root)
+    except ValueError as error:
+        raise SystemExit(f"refusing to write outside {root}: {candidate}") from error
+    return resolved
+
+
 def snake_to_kebab(name: str) -> str:
     return name.replace("_", "-")
 
@@ -137,7 +158,24 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     kebab = snake_to_kebab(snake)
-    root = (args.root or Path(__file__).resolve().parents[1]).resolve()
+    # The tree this rewrites is always the checkout this script lives in, derived
+    # from __file__ rather than from argv. --root is kept as an assertion, not as
+    # a target: it must name this same repository or the run is refused.
+    #
+    # The previous form took the root from --root and fell back to __file__. That
+    # let a caller point a bulk in-place rewriter at any directory on the host,
+    # and it is why the write below was a genuine path-injection sink -- the
+    # files read, transformed and written back all derived from an argv value.
+    # No caller passes --root: scripts/birth-runner/new_repo.py invokes this with
+    # cwd set to the new checkout and no --root at all, relying on exactly this
+    # __file__ resolution.
+    root = REPO_ROOT
+    if args.root is not None and args.root.resolve() != root:
+        print(
+            f"--root must name this repository ({root}), not {args.root.resolve()}",
+            file=sys.stderr,
+        )
+        return 2
     src_old = root / "src" / "l9_example_pkg"
     src_new = root / "src" / snake
     if not src_old.is_dir():
@@ -155,9 +193,10 @@ def main(argv: list[str] | None = None) -> int:
             continue
         updated = replace_text(text, snake, kebab)
         if updated != text:
-            planned.append(str(path.relative_to(root)))
+            target = resolve_within(root, path)
+            planned.append(str(target.relative_to(root)))
             if not args.dry_run:
-                path.write_text(updated, encoding="utf-8")
+                target.write_text(updated, encoding="utf-8")
 
     planned.append(f"rename src/l9_example_pkg -> src/{snake}")
     if args.dry_run:
