@@ -54,6 +54,23 @@ SKIP_REL_PATHS = {
 }
 
 
+def resolve_within(root: Path, candidate: Path) -> Path:
+    """Return ``candidate`` resolved, having proved it stays under ``root``.
+
+    ``root`` comes from ``--root`` and every file this script rewrites is derived
+    from it, so the write targets are caller-influenced paths. Symlinks inside a
+    template checkout are the concrete escape: a link whose target sits outside
+    the tree would otherwise be followed and overwritten in place. Resolving and
+    re-checking containment at the sink refuses that.
+    """
+    resolved = candidate.resolve()
+    try:
+        resolved.relative_to(root)
+    except ValueError as error:
+        raise SystemExit(f"refusing to write outside {root}: {candidate}") from error
+    return resolved
+
+
 def snake_to_kebab(name: str) -> str:
     return name.replace("_", "-")
 
@@ -155,9 +172,10 @@ def main(argv: list[str] | None = None) -> int:
             continue
         updated = replace_text(text, snake, kebab)
         if updated != text:
-            planned.append(str(path.relative_to(root)))
+            target = resolve_within(root, path)
+            planned.append(str(target.relative_to(root)))
             if not args.dry_run:
-                path.write_text(updated, encoding="utf-8")
+                target.write_text(updated, encoding="utf-8")
 
     planned.append(f"rename src/l9_example_pkg -> src/{snake}")
     if args.dry_run:

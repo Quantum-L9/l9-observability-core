@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
@@ -8,6 +9,31 @@ from typing import Any, Sequence
 
 class ChangePolicyError(RuntimeError):
     """Raised when changed-file context cannot be resolved safely."""
+
+
+_GIT_REV_PATTERN = re.compile(r"[A-Za-z0-9][A-Za-z0-9._/@^~-]{0,254}")
+"""Conservative allowlist for the revisions this module hands to git.
+
+Deliberately narrower than git's own ``check-ref-format``: it admits the
+``refs/heads/x``, ``origin/main``, ``HEAD^``, ``v1.2.3`` and abbreviated-SHA
+forms callers actually pass, and nothing else."""
+
+
+def _validate_git_rev(rev: str, label: str) -> str:
+    """Return ``rev`` once it is proven to be a plain git revision.
+
+    ``base_ref`` and ``head_ref`` reach this module straight from ``argv`` and
+    are then passed to ``git`` as command arguments. The leading-character rule
+    is the load-bearing one: a value like ``--upload-pack=…`` is a *valid* string
+    to ``subprocess`` but git reads it as an option, which turns a diff into
+    arbitrary command execution. ``..`` is rejected because git forbids it in ref
+    names and it is how a range expression smuggles in a second revision.
+    """
+    if not _GIT_REV_PATTERN.fullmatch(rev):
+        raise ChangePolicyError(f"{label} is not a valid git revision: {rev!r}")
+    if ".." in rev or rev.endswith((".lock", "/", ".")):
+        raise ChangePolicyError(f"{label} is not a valid git revision: {rev!r}")
+    return rev
 
 
 @dataclass(frozen=True)
@@ -107,6 +133,8 @@ def _working_tree_files(root: Path) -> list[str]:
 
 
 def _comparison_files(root: Path, base_ref: str, head_ref: str) -> list[str]:
+    base_ref = _validate_git_rev(base_ref, "base ref")
+    head_ref = _validate_git_rev(head_ref, "head ref")
     verify = _run_git(root, "rev-parse", "--verify", base_ref)
     if verify.returncode != 0:
         detail = verify.stderr.strip() or "git rev-parse failed"
