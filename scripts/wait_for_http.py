@@ -3,49 +3,60 @@
 
 from __future__ import annotations
 
-import ipaddress
+import re
 import sys
 import time
 import urllib.error
 import urllib.parse
 import urllib.request
 
-ALLOWED_SCHEMES = frozenset({"http", "https"})
+SCHEMES = {"http": "http", "https": "https"}
 """Only plain HTTP(S) is pollable. Rejects file://, gopher://, ftp:// and the
 other urllib-supported schemes that turn this readiness probe into an
 arbitrary-resource fetcher."""
+
+LOOPBACK_HOSTS = {"localhost": "localhost", "127.0.0.1": "127.0.0.1", "::1": "[::1]"}
+"""Hosts this probe may reach, mapping the accepted spelling to the literal used
+to rebuild the URL."""
+
+_PATH_RE = re.compile(r"/[A-Za-z0-9._~!$&'()*+,;=:@%/-]*")
 
 
 def validate_url(raw: str) -> str:
     """Return a URL rebuilt from validated parts, or raise ``ValueError``.
 
-    This probe waits for a *local* service to come up during CI and local
-    bring-up, so the target is confined to loopback. That keeps a caller-supplied
-    string from being used to reach arbitrary hosts (SSRF) through this process.
+    Every component of the returned URL comes from a literal in this module or
+    from an ``int``, never from the caller's string: the scheme and host are
+    *looked up* in the tables above rather than copied through, and the port is
+    an integer. Only the path survives as text, and only after matching a strict
+    pattern.
+
+    That construction is the point, not decoration. This probe waits for a local
+    service during CI and bring-up, so confining it to loopback keeps a
+    caller-supplied string from reaching arbitrary hosts (SSRF) -- including the
+    cloud metadata endpoint at 169.254.169.254 -- through this process. Building
+    the result from the lookup values rather than from the input is what makes
+    that guarantee hold for the string actually passed to urlopen.
     """
     parsed = urllib.parse.urlsplit(raw)
-    if parsed.scheme not in ALLOWED_SCHEMES:
+    scheme = SCHEMES.get(parsed.scheme)
+    if scheme is None:
         raise ValueError(f"unsupported URL scheme {parsed.scheme!r}: expected http or https")
     if parsed.username or parsed.password:
         raise ValueError("URL must not embed credentials")
-    host = parsed.hostname
-    if not host:
+    if not parsed.hostname:
         raise ValueError("URL must include a host")
-    if not _is_loopback(host):
-        raise ValueError(f"host {host!r} is not loopback: this probe only waits on local services")
+    host = LOOPBACK_HOSTS.get(parsed.hostname)
+    if host is None:
+        raise ValueError(
+            f"host {parsed.hostname!r} is not loopback: this probe only waits on local services"
+        )
     port = parsed.port  # urllib raises ValueError on a non-numeric or out-of-range port
-    scheme = "https" if parsed.scheme == "https" else "http"
-    netloc = f"{host}:{port}" if port is not None else host
-    return urllib.parse.urlunsplit((scheme, netloc, parsed.path, parsed.query, ""))
-
-
-def _is_loopback(host: str) -> bool:
-    if host == "localhost":
-        return True
-    try:
-        return ipaddress.ip_address(host).is_loopback
-    except ValueError:
-        return False
+    path = parsed.path or "/"
+    if not _PATH_RE.fullmatch(path):
+        raise ValueError(f"unsupported URL path {path!r}")
+    netloc = f"{host}:{int(port)}" if port is not None else host
+    return f"{scheme}://{netloc}{path}"
 
 
 def main(argv: list[str]) -> int:
