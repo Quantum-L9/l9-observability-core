@@ -1,4 +1,17 @@
-# Product targets for l9-observability-core. The canonical command facade stays in Makefile.
+# Repository-owned implementation of the make-v2 execution phases, plus the
+# product and governance wrappers this repository has always exposed.
+#
+# CI parity:
+#   setup     -> "Sync the locked environment" in ci.yml and deep-plan.yml
+#   validate  -> inventory, hygiene, plugin-config and Cursor-rule checks
+#   check     -> ruff lint, ruff format --check and strict mypy
+#   test-fast -> the four contract-shape suites ci.yml runs on a pull request
+#   test      -> the whole pytest suite deep-plan.yml runs on an apply
+#
+# Core runs each phase as its own make process, so every recipe resolves the
+# environment it needs rather than relying on state a previous phase exported.
+# The help recipe lives in the facade: it lists every target below that carries
+# a `## ` description.
 GOV_ROOT ?= $(HOME)/.cursor-governance
 OPEN_PR ?= 0
 
@@ -7,18 +20,39 @@ PYTHON := $(CURDIR)/.venv/bin/python
 endif
 PYTHON ?= python3
 
-.PHONY: help install-dev lint typecheck inventory-check hygiene-check schema-check \
+.PHONY: repo-setup repo-validate repo-check repo-test-fast repo-test \
+	install-dev lint typecheck inventory-check hygiene-check schema-check \
 	check-config reconcile-config check-rules render-rules \
 	compile-check verify ci pr-check build regenerate-manifest \
 	gov-pr-check gov-pr gov-start gov-wiring-check
 
-help:
-	@echo "Core facade (tools.l9_repo):"
-	@$(L9_REPO) help
-	@echo ""
-	@echo "Product / governance wrappers:"
-	@grep -E '^[a-zA-Z0-9_-]+:.*?## ' Repo.mk \
-		| awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
+repo-setup: ## Create .venv and install the library, its development extra and the runtime pins
+	@test -x "$(PYTHON)" || $(PYTHON) -m venv .venv
+	@.venv/bin/python -m pip install --quiet --upgrade pip
+	@.venv/bin/python -m pip install --quiet -e ".[dev]"
+	@.venv/bin/python -m pip install --quiet -r requirements-repo-runtime.txt
+
+repo-validate: ## Validate the inventory, source hygiene, plugin config and generated rules
+	$(PYTHON) scripts/inventory_check.py
+	$(PYTHON) scripts/repo_hygiene_audit.py
+	$(PYTHON) scripts/reconcile_plugin_config.py --check
+	$(PYTHON) scripts/render_cursor_rules.py --check
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -m compileall -q src tests tools scripts
+
+repo-check: ## Ruff lint, ruff format check and strict mypy for the library package
+	$(PYTHON) -m ruff check .
+	$(PYTHON) -m ruff format --check .
+	$(PYTHON) -m mypy src
+
+repo-test-fast: ## Bounded pull-request test selection
+	$(PYTHON) -m pytest -q -p no:cacheprovider \
+		tests/test_canonical.py \
+		tests/test_json_schemas.py \
+		tests/test_model_integrity.py \
+		tests/test_registry.py
+
+repo-test: ## Whole pytest suite
+	$(PYTHON) -m pytest -q -p no:cacheprovider
 
 install-dev: ## Install the library and declared development dependencies
 	@if command -v uv >/dev/null 2>&1; then \
@@ -103,3 +137,28 @@ gov-wiring-check: ## Check Cursor-Governance wiring for this workspace
 	else \
 		$(MAKE) -C "$(GOV_ROOT)" wiring-check WS="$(CURDIR)"; \
 	fi
+
+# Local repository policy from the vendored Core tooling. Publication verbs
+# (push, pr) are deliberately absent: Git publication belongs to
+# Cursor-Governance, never to the repository-execution facade.
+L9_REPO = $(PYTHON) -m tools.l9_repo --workspace "$(CURDIR)"
+
+.PHONY: doctor change-policy agent-check status clean reconcile
+
+doctor: ## Check the workspace prerequisites the vendored Core tooling expects
+	@$(L9_REPO) doctor
+
+change-policy: ## Report the change policy for the current diff
+	@$(L9_REPO) change-policy
+
+agent-check: ## Run the evidence-bearing agent check
+	@$(L9_REPO) agent-check
+
+status: ## Show the repository-execution status
+	@$(L9_REPO) status
+
+clean: ## Remove generated residue from the workspace
+	@$(L9_REPO) clean
+
+reconcile: ## Reconcile the vendored Core tooling against this workspace
+	@$(L9_REPO) reconcile
