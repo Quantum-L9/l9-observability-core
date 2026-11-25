@@ -22,10 +22,20 @@ def _make(*args: str, env: dict[str, str] | None = None) -> subprocess.Completed
     )
 
 
-def test_makefile_matches_template() -> None:
-    assert (REPO / "Makefile").read_bytes() == (
-        REPO / "tools" / "l9_repo" / "Makefile.template"
-    ).read_bytes()
+def test_makefile_is_the_generated_make_v2_facade() -> None:
+    """The Makefile is the released facade, not the retired Core dispatcher."""
+    text = (REPO / "Makefile").read_text(encoding="utf-8")
+    assert text.startswith("# GENERATED repository execution facade: make-v2.")
+    assert "include Repo.mk" in text
+    assert ".DEFAULT_GOAL := help" in text
+    for phase in ("setup", "validate", "check", "test-fast", "test"):
+        assert f"\n{phase}: repo-" in text
+
+
+def test_repo_mk_implements_every_facade_leaf() -> None:
+    text = (REPO / "Repo.mk").read_text(encoding="utf-8")
+    for leaf in ("repo-setup", "repo-validate", "repo-check", "repo-test-fast", "repo-test"):
+        assert f"\n{leaf}:" in "\n" + text
 
 
 def test_help_lists_product_and_facade() -> None:
